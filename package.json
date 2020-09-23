@@ -1,0 +1,46 @@
+{
+  "name": "package-template",
+  "version": "1.0.0",
+  "description": "github package template",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "directories": {
+    "dist": "dist"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
+    "bundle": "webpack",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/consenlabs/package-template.git"
+  },
+  "keywords": [
+    "template"
+  ],
+  "author": "consenlabs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/consenlabs/package-template/issues"
+  },
+  "homepage": "https://github.com/consenlabs/package-template#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-typescript": "^7.10.4",
+    "typescript": "3.7.5"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}
