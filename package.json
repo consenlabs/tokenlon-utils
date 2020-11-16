@@ -1,5 +1,5 @@
 {
-  "name": "tokenlon-utils",
+  "name": "@consenlabs/tokenlon-utils",
   "version": "0.0.1",
   "description": "a helper functions fot tokenlon utils",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "bundle": "webpack",
-    "test": "jest --coverage"
+    "test": "jest src --coverage"
   },
   "repository": {
     "type": "git",
