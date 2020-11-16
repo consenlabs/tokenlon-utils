@@ -63,6 +63,13 @@ function fromUnitToDecimal(
   return fromUnitToDecimalBN(balance, decimal).toString(base)
 }
 
+function satoshisToBitcoin(value: number): string | number {
+  if (!value) {
+    return '~'
+  }
+  return (value / Math.pow(10, 8)).toFixed(4)
+}
+
 export {
   addDollarSignBeforeNumber,
   formatThousandCommas,
@@ -70,5 +77,6 @@ export {
   fromUnitToDecimal,
   fromDecimalToUnit,
   stripHexPrefix,
+  satoshisToBitcoin,
   toBN,
 }

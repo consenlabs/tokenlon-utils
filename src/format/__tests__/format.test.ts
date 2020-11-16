@@ -6,6 +6,7 @@ import {
   fromDecimalToUnit,
   fromUnitToDecimal,
   stripHexPrefix,
+  satoshisToBitcoin,
   toBN,
 } from '../index'
 
@@ -88,5 +89,14 @@ describe('stripHexPrefix', () => {
   })
   it('should return itself if  not string', () => {
     expect(stripHexPrefix(null)).toBe(null)
+  })
+})
+
+describe('satoshisToBitcoin', () => {
+  it('should format satoshisToBitcoin', () => {
+    expect(satoshisToBitcoin(998877665544332211)).toBe('9988776655.4433')
+  })
+  it('should return ~ if value not existed', () => {
+    expect(satoshisToBitcoin(null)).toBe('~')
   })
 })

@@ -1,6 +1,6 @@
 {
-  "name": "tokenlon-utils",
-  "version": "0.0.1",
+  "name": "@consenlabs/tokenlon-utils",
+  "version": "0.0.2",
   "description": "a helper functions fot tokenlon utils",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,11 +16,11 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "bundle": "webpack",
-    "test": "jest --coverage"
+    "test": "jest src --coverage"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/consenlabs/package-template.git"
+    "url": "git+https://github.com/consenlabs/tokenlon-utils.git"
   },
   "keywords": [
     "template"
@@ -28,9 +28,9 @@
   "author": "consenlabs",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/consenlabs/package-template/issues"
+    "url": "https://github.com/consenlabs/tokenlon-utils/issues"
   },
-  "homepage": "https://github.com/consenlabs/package-template#readme",
+  "homepage": "https://github.com/consenlabs/tokenlon-utils#readme",
   "devDependencies": {
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
