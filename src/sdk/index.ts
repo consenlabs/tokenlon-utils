@@ -4,9 +4,9 @@ const getEthereumAccounts = (): Promise<string[]> => {
   return window.ethereum && window.ethereum.enable()
 }
 function getAccounts(): Promise<string[]> {
-  return (window as any).imToken && imToken.callPromisifyAPI
+  return window.imToken && imToken.callPromisifyAPI
     ? imToken.callPromisifyAPI('ethereum.enable')
-    : (window as any).ethereum.enable()
+    : window.ethereum.enable()
 }
 const personalSign = (address: string, message: string) => {
   return imToken.callPromisifyAPI('transaction.personalSign', {

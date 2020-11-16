@@ -2,14 +2,10 @@ import BN from 'bignumber.js'
 import { queryUrlSearchParams } from '../url'
 
 const isimTokenApp = (userAgent) => {
-  return (
-    typeof window !== 'undefined' &&
-    (window as any).imToken &&
-    /Mobile/i.test(userAgent)
-  )
+  return window && window.imToken && /Mobile/i.test(userAgent)
 }
 const isiPhoneX = () => {
-  if (typeof window !== 'undefined' && window) {
+  if (window) {
     return (
       /iphone/gi.test(window.navigator.userAgent) && window.screen.height >= 812
     )
@@ -21,7 +17,7 @@ const isExist = (o: any) => {
   return typeof o !== 'undefined'
 }
 
-const isDecimalOverflow = (num: string, length) => {
+const isDecimalOverflow = (num: string, length: number) => {
   const fraction = num.split('.')[1]
   return !!(fraction && fraction.length > length)
 }
@@ -54,14 +50,11 @@ const isStaging = (currentHost?: string) => {
 
 const isBigNumber = (v: any) => {
   return (
-    v instanceof BN ||
-    (v && v.isBigNumber === true) ||
-    (v && v._isBigNumber === true) ||
-    false
+    v instanceof BN || (v && v.isBigNumber) || (v && v._isBigNumber) || false
   )
 }
 const isHexPrefixed = (str: string) => {
-  return str.slice(0, 2) === '0x'
+  return str.startsWith('0x')
 }
 
 const isTestnet = () => {
