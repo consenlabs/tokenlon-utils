@@ -1,4 +1,4 @@
-import { isStaging, isDev, isBigNumber } from '../index'
+import { isStaging, isDev, isBigNumber, isMobile } from '../index'
 import { toBN } from '../../format'
 
 global.window = Object.create(window)
@@ -9,7 +9,11 @@ const mockUrl = (url: string) => {
     },
   })
 }
-
+const mockUserAgent = (agentName: string) => {
+  return navigator.__defineGetter__('userAgent', () => {
+    return agentName
+  })
+}
 describe('isDev', () => {
   it('should return true if url include .dev', () => {
     const url = 'http://tokenlon.dev.com'
@@ -62,5 +66,20 @@ describe('isBigNumber', () => {
   })
   it('should return true if call toBN', () => {
     expect(isBigNumber(toBN(1234))).toBeTruthy()
+  })
+})
+
+describe('isMobile', () => {
+  it('should return false if ua not mobile', () => {
+    mockUserAgent('Mozilla/5.0')
+    expect(isMobile()).toBeFalsy()
+  })
+  it('should return true if ua is iPhone', () => {
+    mockUserAgent('iPhone')
+    expect(isMobile()).toBeTruthy()
+  })
+  it('should return true if ua is android', () => {
+    mockUserAgent('Android')
+    expect(isMobile()).toBeTruthy()
   })
 })

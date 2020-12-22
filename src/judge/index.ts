@@ -1,6 +1,17 @@
 import BN from 'bignumber.js'
 import { queryUrlSearchParams } from '../url'
 
+const _getUa = () => {
+  let ua
+  if (typeof window !== 'undefined') {
+    ua =
+      ('navigator' in window &&
+        'userAgent' in navigator &&
+        navigator.userAgent.toLowerCase()) ||
+      ''
+  }
+  return ua
+}
 const isimTokenApp = (userAgent) => {
   return window && window.imToken && /Mobile/i.test(userAgent)
 }
@@ -20,18 +31,6 @@ const isExist = (o: any) => {
 const isDecimalOverflow = (num: string, length: number) => {
   const fraction = num.split('.')[1]
   return !!(fraction && fraction.length > length)
-}
-
-/**
- * check current page is load by reload
- * https://stackoverflow.com/questions/5004978/check-if-page-gets-reloaded-or-refreshed-in-javascript
- */
-const isReload = () => {
-  return (
-    window.performance &&
-    window.performance.navigation &&
-    window.performance.navigation.type === 1
-  )
 }
 
 const isDev = (currentHost?: string) => {
@@ -65,15 +64,32 @@ const isTestnet = () => {
   )
 }
 
+const isMobile = () => {
+  const ua = _getUa()
+  return !!ua.match(/(iPhone|iPod|android|ios|iPad|windows phone|tablet)/i)
+}
+
+const hasParentNodes = (classname: string) => {
+  return (node) => {
+    while (node) {
+      if (node.classList && node.classList.contains(classname)) {
+        return true
+      }
+      node = node.parentNode
+    }
+    return false
+  }
+}
 export {
   isHexPrefixed,
   isTestnet,
   isStaging,
   isDev,
-  isReload,
   isDecimalOverflow,
   isiPhoneX,
   isExist,
   isimTokenApp,
   isBigNumber,
+  hasParentNodes,
+  isMobile,
 }
