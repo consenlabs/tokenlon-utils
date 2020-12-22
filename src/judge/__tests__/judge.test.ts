@@ -10,7 +10,7 @@ const mockUrl = (url: string) => {
   })
 }
 const mockUserAgent = (agentName: string) => {
-  return navigator.__defineGetter__('userAgent', () => {
+  return (navigator as any).__defineGetter__('userAgent', () => {
     return agentName
   })
 }
