@@ -10,7 +10,7 @@ import {
   toBN,
   toFixed,
   toHex,
-  toDecimal,
+  processNumberPrecision,
 } from '../index'
 
 describe('toHex', () => {
@@ -29,21 +29,21 @@ describe('toFixed', () => {
     expect(toFixed('12345', 3)).toBe('12345.000')
   })
 })
-describe('toDecimal', () => {
+describe('processNumberPrecision', () => {
   it('should to convert number to decimal with 4 decimal place', () => {
-    expect(toDecimal(123.01)).toBe('123.0100')
+    expect(processNumberPrecision(123.01)).toBe('123.0100')
   })
   it('should to convert 0 to 0', () => {
-    expect(toDecimal(0)).toBe('0')
+    expect(processNumberPrecision(0)).toBe('0')
   })
   it('should to convert undefined to 0', () => {
-    expect(toDecimal(undefined)).toBe('0')
+    expect(processNumberPrecision(undefined)).toBe('0')
   })
   it('should to convert number with 6 decimal place', () => {
-    expect(toDecimal(1234.012445)).toBe('1234.0124')
+    expect(processNumberPrecision(1234.012445)).toBe('1234.0124')
   })
   it('should to convert number with 1 decimal place', () => {
-    expect(toDecimal(1234.092445, 1)).toBe('1234.0')
+    expect(processNumberPrecision(1234.092445, 1)).toBe('1234.0')
   })
 })
 

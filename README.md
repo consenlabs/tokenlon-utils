@@ -12,7 +12,7 @@ $ yarn run test testFileName.test.ts
 
 1. remove `fillHelper`，`fillHelper` always return the given value
 
-2. change `decimal` to `toDecimal`
+2. change `decimal` to `processNumberPrecision`
 
 3. remove `formatNumHelper`，use`toDecimal` to replace，cause of duplicate reuse of logic
 

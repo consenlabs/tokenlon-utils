@@ -30,7 +30,10 @@ const toHex = (num: string | number): string | number => {
   return `0x${toBN(num).toString(16)}`
 }
 
-const toDecimal = (num: string | number, place: number = 4): string => {
+const processNumberPrecision = (
+  num: string | number,
+  place: number = 4,
+): string => {
   if (!num || Number(num) === 0) return '0'
   return toFixed(num, place, 1)
 }
@@ -115,5 +118,5 @@ export {
   toBN,
   toFixed,
   toHex,
-  toDecimal,
+  processNumberPrecision,
 }
