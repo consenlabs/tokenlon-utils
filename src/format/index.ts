@@ -1,19 +1,64 @@
-import numeral from 'numeral'
 import BN from 'bignumber.js'
-import { isHexPrefixed } from '../judge'
+import is from '../is'
 
-const addDollarSignBeforeNumber = (num: number) => {
+type Format_Value = string | number | BN
+
+const toBN = (x: number | BN | string): BN => {
+  if (isNaN(Number(x))) return new BN(0)
+  if (x instanceof BN) return x
+
+  if (typeof x === 'string') {
+    if (x.indexOf('0x') === 0 || x.indexOf('-0x') === 0) {
+      return new BN(x.replace('0x', ''), 16)
+    }
+  }
+  return new BN(x)
+}
+
+const toFixed = (
+  n: Format_Value,
+  dp: number = 4,
+  rm: BN.RoundingMode = 1,
+): string => {
+  return toBN(n).toFixed(dp, rm)
+}
+
+const toHex = (num: string | number): string | number => {
+  if (String(num).startsWith('0x')) {
+    return num
+  }
+  return `0x${toBN(num).toString(16)}`
+}
+
+const toDecimal = (num: string | number, place: number = 4): string => {
+  if (!num || Number(num) === 0) return '0'
+  return toFixed(num, place, 1)
+}
+
+const addDollarPrefix = (num: number) => {
   if (num === undefined) {
     return '$0'
   }
   return `$${Number(num.toFixed(0)).toLocaleString('en-us')}`
 }
 
-const formatThousandCommas = (num: string | number, place: number = 4) => {
-  const decimals = '0'.repeat(place)
-  return numeral(num).format(`0,0.[${decimals}]`)
-}
+const thousandCommas = (num: number | string, place: number = 4): string => {
+  if (place < 0 || place > 20) {
+    return toBN(num).toString(10)
+  }
 
+  const n = toBN(num).toFormat(place, 1)
+  /**
+   *  小数位去零
+   * 3.14159000 =>  3.14159
+   * 3.00 => 3
+   * 3.00012 => 3.00012
+   * 3.0001200 => 3.00012
+   * 31415 => 31,415
+   */
+  // return n.replace(/\.0+$/g, '').replace(/\.(.*[^0])0+$/g, '.$1'
+  return n
+}
 const ellipsisByLength = (
   str: string,
   lead: number = 12,
@@ -28,22 +73,11 @@ const ellipsisByLength = (
   return str
 }
 
-const toBN = (x: number | BN | string): BN => {
-  if (isNaN(Number(x))) return new BN(0)
-  if (x instanceof BN) return x
-
-  if (typeof x === 'string') {
-    if (x.indexOf('0x') === 0 || x.indexOf('-0x') === 0) {
-      return new BN(x.replace('0x', ''), 16)
-    }
-  }
-  return new BN(x)
-}
 function stripHexPrefix(str: string) {
   if (typeof str !== 'string') {
     return str
   }
-  return isHexPrefixed(str) ? str.slice(2) : str
+  return is.startWithOx(str) ? str.slice(2) : str
 }
 
 function fromDecimalToUnit(balance: string | number | BN, decimal: number): BN {
@@ -71,12 +105,15 @@ function satoshisToBitcoin(value: number): string | number {
 }
 
 export {
-  addDollarSignBeforeNumber,
-  formatThousandCommas,
+  addDollarPrefix,
+  thousandCommas,
   ellipsisByLength,
   fromUnitToDecimal,
   fromDecimalToUnit,
   stripHexPrefix,
   satoshisToBitcoin,
   toBN,
+  toFixed,
+  toHex,
+  toDecimal,
 }

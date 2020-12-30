@@ -1,33 +1,73 @@
 import BN from 'bignumber.js'
 import {
-  addDollarSignBeforeNumber,
-  formatThousandCommas,
+  addDollarPrefix,
+  thousandCommas,
   ellipsisByLength,
   fromDecimalToUnit,
   fromUnitToDecimal,
   stripHexPrefix,
   satoshisToBitcoin,
   toBN,
+  toFixed,
+  toHex,
+  toDecimal,
 } from '../index'
 
-describe('addDollarSignBeforeNumber', () => {
-  it('should return $18 if get 18.0 ', () => {
-    expect(addDollarSignBeforeNumber(18.0)).toBe('$18')
+describe('toHex', () => {
+  it('should convert number to hex', () => {
+    expect(toHex(12345)).toBe('0x3039')
   })
-  it('should return $$0 if get undefined ', () => {
-    expect(addDollarSignBeforeNumber(undefined)).toBe('$0')
+  it('should convert string to hex', () => {
+    expect(toHex('12345')).toBe('0x3039')
+  })
+})
+describe('toFixed', () => {
+  it('should convert number to 4 digit', () => {
+    expect(toFixed(12345)).toBe('12345.0000')
+  })
+  it('should convert string to 3 digit', () => {
+    expect(toFixed('12345', 3)).toBe('12345.000')
+  })
+})
+describe('toDecimal', () => {
+  it('should to convert number to decimal with 4 decimal place', () => {
+    expect(toDecimal(123.01)).toBe('123.0100')
+  })
+  it('should to convert 0 to 0', () => {
+    expect(toDecimal(0)).toBe('0')
+  })
+  it('should to convert undefined to 0', () => {
+    expect(toDecimal(undefined)).toBe('0')
+  })
+  it('should to convert number with 6 decimal place', () => {
+    expect(toDecimal(1234.012445)).toBe('1234.0124')
+  })
+  it('should to convert number with 1 decimal place', () => {
+    expect(toDecimal(1234.092445, 1)).toBe('1234.0')
   })
 })
 
-describe('formatThousandCommas', () => {
-  it('should return 234,234 if get 234234', () => {
-    expect(formatThousandCommas(234234)).toBe('234,234')
+describe('addDollarPrefix', () => {
+  it('should return $18 if get 18.0 ', () => {
+    expect(addDollarPrefix(18.0)).toBe('$18')
   })
-  it('should return 100 if get 100', () => {
-    expect(formatThousandCommas(100, 3)).toBe('100')
+  it('should return $$0 if get undefined ', () => {
+    expect(addDollarPrefix(undefined)).toBe('$0')
   })
-  it('should return 1,000 if get 1000', () => {
-    expect(formatThousandCommas(1000, 3)).toBe('1,000')
+})
+
+describe('thousandCommas', () => {
+  it('should return `234,234` if get 234234', () => {
+    expect(thousandCommas(234234)).toBe('234,234.0000')
+  })
+  it('should return `100` if get 100', () => {
+    expect(thousandCommas(100, 0)).toBe('100')
+  })
+  it('should return `1,000` if get 1000', () => {
+    expect(thousandCommas(1000, 3)).toBe('1,000.000')
+  })
+  it('should remove the last digit', () => {
+    expect(thousandCommas(3.14159)).toBe('3.1415')
   })
 })
 

@@ -1,7 +1,7 @@
 {
   "name": "@consenlabs/tokenlon-utils",
-  "version": "0.0.7",
-  "description": "a helper functions fot tokenlon utils",
+  "version": "0.0.8",
+  "description": "a helper functions fot tokenlon",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
@@ -16,7 +16,8 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "bundle": "webpack",
-    "test": "jest src --coverage"
+    "test": "jest",
+    "test:coverage": "jest src --coverage"
   },
   "repository": {
     "type": "git",
@@ -41,19 +42,20 @@
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "lint-staged": "^10.4.0",
-    "typescript": "3.7.5"
+    "typescript": "3.9.7"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test"
+      "pre-commit": "yarn run build && yarn run test:coverage"
     }
   },
   "dependencies": {
     "axios": "0.18.0",
     "bignumber.js": "^9.0.0",
-    "numeral": "^2.0.6"
+    "numeral": "^2.0.6",
+    "web3": "git+https://github.com/consenlabs/web3.js.git"
   }
 }
