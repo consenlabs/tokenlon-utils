@@ -16,4 +16,7 @@ describe('imUtils', () => {
   it('should return true if imUtils contain helper property', () => {
     expect(imUtils).toHaveProperty('request')
   })
+  it('should return true if imUtils contain web3 property', () => {
+    expect(imUtils).toHaveProperty('web3')
+  })
 })

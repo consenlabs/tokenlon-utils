@@ -30,14 +30,6 @@ const toHex = (num: string | number): string | number => {
   return `0x${toBN(num).toString(16)}`
 }
 
-const processNumberPrecision = (
-  num: string | number,
-  place: number = 4,
-): string => {
-  if (!num || Number(num) === 0) return '0'
-  return toFixed(num, place, 1)
-}
-
 const addDollarPrefix = (num: number) => {
   if (num === undefined) {
     return '$0'
@@ -107,14 +99,41 @@ function satoshisToBitcoin(value: number): string | number {
   return (value / Math.pow(10, 8)).toFixed(4)
 }
 
+function add0xPrefix(str: string) {
+  if (typeof str !== 'string') {
+    return str
+  }
+  return is.startWithOx(str) ? str : `0x${str}`
+}
+
+const processNumberPrecision = (
+  value: string | number,
+  digits: number = 4,
+  fillZero?: boolean,
+): string => {
+  if (!value || Number(value) === 0) return '0'
+
+  const formatValue = toFixed(value, digits, 1)
+  if (formatValue === undefined || fillZero) {
+    return formatValue
+  }
+  const result = toBN(formatValue).toString()
+  if (result.indexOf('.') !== -1) {
+    return result
+  }
+  return toBN(formatValue).toFixed(2, 1)
+}
+
 export {
   addDollarPrefix,
   thousandCommas,
   ellipsisByLength,
   fromUnitToDecimal,
   fromDecimalToUnit,
+  fromUnitToDecimalBN,
   stripHexPrefix,
   satoshisToBitcoin,
+  add0xPrefix,
   toBN,
   toFixed,
   toHex,

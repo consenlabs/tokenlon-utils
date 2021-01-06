@@ -11,6 +11,7 @@ import {
   toFixed,
   toHex,
   processNumberPrecision,
+  add0xPrefix,
 } from '../index'
 
 describe('toHex', () => {
@@ -22,28 +23,11 @@ describe('toHex', () => {
   })
 })
 describe('toFixed', () => {
-  it('should convert number to 4 digit', () => {
+  it('should convert number to 4 decimal if not specific dp', () => {
     expect(toFixed(12345)).toBe('12345.0000')
   })
-  it('should convert string to 3 digit', () => {
+  it('should convert string to 3 decimal if specific dp as 3', () => {
     expect(toFixed('12345', 3)).toBe('12345.000')
-  })
-})
-describe('processNumberPrecision', () => {
-  it('should to convert number to decimal with 4 decimal place', () => {
-    expect(processNumberPrecision(123.01)).toBe('123.0100')
-  })
-  it('should to convert 0 to 0', () => {
-    expect(processNumberPrecision(0)).toBe('0')
-  })
-  it('should to convert undefined to 0', () => {
-    expect(processNumberPrecision(undefined)).toBe('0')
-  })
-  it('should to convert number with 6 decimal place', () => {
-    expect(processNumberPrecision(1234.012445)).toBe('1234.0124')
-  })
-  it('should to convert number with 1 decimal place', () => {
-    expect(processNumberPrecision(1234.092445, 1)).toBe('1234.0')
   })
 })
 
@@ -138,5 +122,36 @@ describe('satoshisToBitcoin', () => {
   })
   it('should return ~ if value not existed', () => {
     expect(satoshisToBitcoin(null)).toBe('~')
+  })
+})
+
+describe('add0xPrefix', () => {
+  it('should return its orignal string if string start with 0x', () => {
+    expect(add0xPrefix('0xsadsdsadasd')).toBe('0xsadsdsadasd')
+  })
+  it('should format string with 0x prefix if string not start with 0x', () => {
+    expect(add0xPrefix('6578uhjnbasdsad')).toBe('0x6578uhjnbasdsad')
+  })
+})
+
+describe('processNumberPrecision', () => {
+  it('should keep 2 decimal if params is 2', () => {
+    expect(processNumberPrecision('122222.09876545678', 2)).toBe('122222.09')
+  })
+  it('should remove the last 0 if fill is false', () => {
+    expect(processNumberPrecision('122222.09870000', 4, false)).toBe(
+      '122222.0987',
+    )
+  })
+  it('should not remove the last 0 if fill is true', () => {
+    expect(processNumberPrecision('122222.76500000', 8, true)).toBe(
+      '122222.76500000',
+    )
+  })
+  it('should format number and return string if value is number', () => {
+    expect(processNumberPrecision(76132.233, 2)).toBe('76132.23')
+  })
+  it('should return 0 if value is undefined', () => {
+    expect(processNumberPrecision(undefined, 2)).toBe('0')
   })
 })
