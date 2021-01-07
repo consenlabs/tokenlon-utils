@@ -56,7 +56,21 @@ function getTransactionReceiptAsync(hash: string): Promise<Receipt> {
   return _handleWeb3MethodCallback(getTransactionReceipt, hash)
 }
 
+function personalSign(address: string, hexMsg: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const web3 = window.web3
+    web3.eth.personal.sign(hexMsg, address, '', (err, txHash) => {
+      if (!err) {
+        resolve(txHash)
+      } else {
+        reject(err)
+      }
+    })
+  })
+}
+
 export {
+  personalSign,
   getNonceAsync,
   getEtherBalanceAsync,
   getGasPriceAsync,

@@ -1,4 +1,5 @@
 import {
+  personalSign,
   getNonceAsync,
   getEtherBalanceAsync,
   getGasPriceAsync,
@@ -7,6 +8,7 @@ import {
 import BN from 'bignumber.js'
 
 const address1 = '0x6B030f453e7E0F1447601EE757947286A60B0122'
+
 describe('getNonceAsync', () => {
   it('should return nonce number if cb not any err', async () => {
     const nonce1 = 1222123
@@ -98,6 +100,39 @@ describe('getBlockNumberAsync', () => {
     }
     await getBlockNumberAsync().catch((e) => {
       expect(e).toEqual('error message')
+    })
+  })
+})
+
+describe('personalSign', () => {
+  it('should return txHash if call person.sign', async () => {
+    const txHash = '0xccsdcscdcdscdscscscsdc'
+    const hexMsg = 'xzkjadghsfssafdsgbsad'
+    ;(global as any).web3 = {
+      eth: {
+        personal: {
+          sign: jest.fn().mockImplementation((hexMsg, address, empty, cb) => {
+            cb('', txHash)
+          }),
+        },
+      },
+    }
+    expect(await personalSign(address1, hexMsg)).toBe(txHash)
+  })
+  it('should return error if call person.sign get error', async () => {
+    const txHash = '0xccsdcscdcdscdscscscsdc'
+    const hexMsg = 'xzkjadghsfssafdsgbsad'
+    ;(global as any).web3 = {
+      eth: {
+        personal: {
+          sign: jest.fn().mockImplementation((hexMsg, address, empty, cb) => {
+            cb('error', txHash)
+          }),
+        },
+      },
+    }
+    await personalSign(address1, hexMsg).catch((e) => {
+      expect(e).toBe('error')
     })
   })
 })

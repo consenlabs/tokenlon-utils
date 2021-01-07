@@ -7,8 +7,8 @@ run single test file:
 ```bash
 $ yarn run test testFileName.test.ts
 
-// with console functions
-npx jest testFileName.test.ts
+// or
+$ npx jest testFileName.test.ts
 ```
 
 ### Changelog

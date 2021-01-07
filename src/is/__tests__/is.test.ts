@@ -117,3 +117,18 @@ describe('startWithOx', () => {
     expect(is.startWithOx('asdsadasdasd')).toBeFalsy()
   })
 })
+
+describe('exist', () => {
+  it('should return false if give value is  undefined', () => {
+    expect(is.exist(undefined)).toBeFalsy()
+  })
+  it('should return true if give value is empty string', () => {
+    expect(is.exist('')).toBeTruthy()
+  })
+  it('should return true if give value is not undefined', () => {
+    expect(is.exist('undefined')).toBeTruthy()
+  })
+  it('should return true if give value is false', () => {
+    expect(is.exist(false)).toBeTruthy()
+  })
+})

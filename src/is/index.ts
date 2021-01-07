@@ -24,6 +24,7 @@ type Is = {
   testnet: () => boolean
   mobile: () => boolean
   ethAddress: (address: string) => boolean
+  exist: (value: any) => boolean
 }
 const is = {} as Is
 const web3 = new Web3()
@@ -86,6 +87,10 @@ is.testnet = () => {
 is.mobile = () => {
   const ua = _getUa()
   return !!ua.match(/(iPhone|iPod|android|ios|iPad|windows phone|tablet)/i)
+}
+
+is.exist = (value: any) => {
+  return typeof value !== 'undefined'
 }
 
 export default is
