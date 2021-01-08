@@ -82,7 +82,7 @@ describe('getBlockNumberAsync', () => {
   it('should return block number if cb not any err', async () => {
     ;(global as any).web3 = {
       eth: {
-        getBlockNumber: jest.fn().mockImplementation((undefined, cb) => {
+        getBlockNumber: jest.fn().mockImplementation((cb) => {
           cb('', blockNumber)
         }),
       },
@@ -93,7 +93,7 @@ describe('getBlockNumberAsync', () => {
   it('should return throw error if cb return err', async () => {
     ;(global as any).web3 = {
       eth: {
-        getBlockNumber: jest.fn().mockImplementation((undefined, cb) => {
+        getBlockNumber: jest.fn().mockImplementation((cb) => {
           cb('error message', blockNumber)
         }),
       },

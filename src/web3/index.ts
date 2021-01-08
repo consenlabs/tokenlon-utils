@@ -47,7 +47,15 @@ function getGasPriceAsync(): Promise<BN> {
 function getBlockNumberAsync(): Promise<number> {
   const web3 = window.web3
   const { getBlockNumber } = web3.eth
-  return _handleWeb3MethodCallback(getBlockNumber)
+  return new Promise((resolve, reject) => {
+    getBlockNumber((err, blockNumber) => {
+      if (!err) {
+        resolve(blockNumber)
+      } else {
+        reject(err)
+      }
+    })
+  })
 }
 
 function getTransactionReceiptAsync(hash: string): Promise<Receipt> {
