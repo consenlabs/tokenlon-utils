@@ -3,6 +3,10 @@ import is from '../is'
 
 type Format_Value = string | number | BN
 
+BN.config({
+  EXPONENTIAL_AT: 1000,
+})
+
 const toBN = (x: number | BN | string): BN => {
   if (isNaN(Number(x))) return new BN(0)
   if (x instanceof BN) return x
