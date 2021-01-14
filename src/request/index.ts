@@ -19,8 +19,13 @@ const rpcAsync = async (url, method, params, opts = {}) => {
   }
 }
 
-function requestUrl(url, params = {}) {
-  return Axios({ method: 'get', url: url, params }).then((res) => {
+function requestUrl(url, params = {}, headers?: any) {
+  return Axios({
+    method: 'get',
+    url: url,
+    params,
+    headers: headers || {},
+  }).then((res) => {
     if (res.data) {
       return res.data
     } else {
