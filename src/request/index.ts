@@ -19,6 +19,16 @@ const rpcAsync = async (url, method, params, opts = {}) => {
   }
 }
 
+function requestUrl(url, params = {}) {
+  return Axios({ method: 'get', url: url, params }).then((res) => {
+    if (res.data) {
+      return res.data
+    } else {
+      throw new Error(`null response ${url} ${JSON.stringify(params)}`)
+    }
+  })
+}
+
 function getTokenBalanceAsync(
   walletAddress: string,
   contractAddress: string,
@@ -61,4 +71,4 @@ function getTokenBalanceByProvider(
     return balance
   })
 }
-export { rpcAsync, getTokenBalanceAsync, getTokenBalanceByProvider }
+export { rpcAsync, requestUrl, getTokenBalanceAsync, getTokenBalanceByProvider }

@@ -30,3 +30,5 @@ $ npx jest testFileName.test.ts
 8. add web3 utils functions
 
 9. change `getTokenBalance` in `api.ts` to `getTokenBalanceByProvider`
+
+10. change `get` to `requestUrl`
