@@ -1,6 +1,6 @@
 {
   "name": "@consenlabs/tokenlon-utils",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a helper functions fot tokenlon",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "axios": "0.21.1",
-    "bignumber.js": "^9.0.0",
+    "bignumber.js": "9.0.1",
     "numeral": "^2.0.6",
     "web3": "git+https://github.com/consenlabs/web3.js.git"
   }
