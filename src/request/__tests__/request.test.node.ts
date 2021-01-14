@@ -1,4 +1,4 @@
-import { requestAsync, rpcAsync } from '../index'
+import { rpcAsync } from '../index'
 import Axios from 'axios'
 
 jest.mock('axios')
@@ -15,17 +15,6 @@ const data = {
 }
 const requestUrl = 'https://api.dev.tokenlon.im/v1/referral/pool/shares'
 
-describe('requestAsync', () => {
-  it('should return data if call requestAsync', async () => {
-    Axios.get = jest
-      .fn()
-      .mockImplementationOnce(() => Promise.resolve({ data: data }))
-    const res = await requestAsync({
-      url: requestUrl,
-    })
-    expect(res).toBe(data)
-  })
-})
 describe('rpcAsync', () => {
   it('should return data if call rpcAsync', async () => {
     ;(Axios.post as jest.Mock).mockResolvedValue({ data })
@@ -33,5 +22,13 @@ describe('rpcAsync', () => {
       chainType: 'ETHEREUM',
     })
     expect(res).toBe(data.result)
+  })
+  it('should catch error if call rpcAsync throw error', async () => {
+    ;(Axios.post as jest.Mock).mockRejectedValue({ err: 'error' })
+    await rpcAsync(requestUrl, 'market.getPrice', {
+      chainType: 'ETHEREUM',
+    }).catch((err) => {
+      expect(err).toBeTruthy()
+    })
   })
 })

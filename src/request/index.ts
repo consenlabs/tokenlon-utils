@@ -2,6 +2,7 @@ import Axios from 'axios'
 import _ from 'lodash'
 import { padLeft } from '../helper'
 import { toBN, stripHexPrefix } from '../format'
+const Eth = require('ethjs')
 
 const rpcAsync = async (url, method, params, opts = {}) => {
   const data = {
@@ -11,16 +12,8 @@ const rpcAsync = async (url, method, params, opts = {}) => {
     params,
   }
   try {
-    const res = await Axios.post(url, { data, ...opts })
+    const res = await Axios.post(url, data, opts)
     return _.get(res, 'data.result')
-  } catch (error) {
-    throw new Error(`null response ${url} ${JSON.stringify(params)}`)
-  }
-}
-const requestAsync = async ({ url, params = {} }) => {
-  try {
-    const res = await Axios.get(url, { params })
-    return _.get(res, 'data')
   } catch (error) {
     throw new Error(`null response ${url} ${JSON.stringify(params)}`)
   }
@@ -50,4 +43,22 @@ function getTokenBalanceAsync(
     })
   })
 }
-export { requestAsync, rpcAsync, getTokenBalanceAsync }
+
+function getTokenBalanceByProvider(
+  walletAddress: string,
+  contractAddress: string,
+): Promise<string> {
+  const provider = 'https://eth-mainnet.token.im'
+  const eth = new Eth(new Eth.HttpProvider(provider))
+  const HEX_OF_BALANCE_OF = '70a08231'
+  const data = `0x${HEX_OF_BALANCE_OF}${padLeft(
+    stripHexPrefix(walletAddress),
+    64,
+  )}`
+  const params = { to: contractAddress, data }
+  return eth.call(params).then((value) => {
+    const balance = value === '0x' ? '0' : toBN(value).toString(10)
+    return balance
+  })
+}
+export { rpcAsync, getTokenBalanceAsync, getTokenBalanceByProvider }

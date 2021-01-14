@@ -28,3 +28,5 @@ $ npx jest testFileName.test.ts
 7. change `addHexPrefix` to `add0xPrefix`
 
 8. add web3 utils functions
+
+9. change `getTokenBalance` in `api.ts` to `getTokenBalanceByProvider`
