@@ -22,3 +22,8 @@ export type Receipt = {
 
   status?: undefined | null | string | 0 | 1
 }
+export type TokenAllowanceParams = {
+  walletAddress: string
+  contractAddress: string
+  spenderAddress: string
+}

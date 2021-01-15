@@ -1,6 +1,10 @@
-import { getEthereumAccounts } from '../index'
+import { getEthereumAccounts, getAccounts } from '../index'
 
 describe('getEthereumAccounts', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.resetAllMocks()
+  })
   it('should call enable if call getEthereumAccounts', () => {
     ;(global as any).ethereum = {
       enable: jest.fn(),
@@ -14,5 +18,26 @@ describe('getEthereumAccounts', () => {
     }
     const value = getEthereumAccounts()
     expect(value).resolves.toBe(['0xssdd'])
+  })
+})
+describe('getAccounts', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.resetAllMocks()
+  })
+  it('should call enable if call getAccounts', () => {
+    ;(global as any).ethereum = {
+      enable: jest.fn(),
+    }
+    getAccounts()
+    expect((global as any).ethereum.enable).toHaveBeenCalled()
+  })
+  it('should call window.imToken.callPromisifyAPI if call getAccounts', () => {
+    ;(global as any).imToken = {
+      callPromisifyAPI: jest.fn(),
+    }
+    ;(global as any).ethereum = undefined
+    getAccounts()
+    expect((global as any).imToken.callPromisifyAPI).toHaveBeenCalled()
   })
 })
