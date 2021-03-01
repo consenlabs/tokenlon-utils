@@ -25,10 +25,14 @@ type Is = {
   mobile: () => boolean
   ethAddress: (address: string) => boolean
   exist: (value: any) => boolean
+  client: () => boolean
 }
 const is = {} as Is
 const web3 = new Web3()
 
+is.client = () => {
+  return typeof window !== 'undefined'
+}
 is.imTokenApp = (userAgent: string) => {
   return window && window.imToken && /Mobile/i.test(userAgent)
 }
@@ -54,6 +58,7 @@ is.decimalOverflow = (num: string, length: number) => {
 }
 
 is.dev = (currentHost?: string) => {
+  if (!is.client()) return false
   const host = currentHost || window.location.host
   return (
     host.indexOf('localhost') !== -1 ||
@@ -63,6 +68,7 @@ is.dev = (currentHost?: string) => {
 }
 
 is.staging = (currentHost?: string) => {
+  if (!is.client()) return false
   const host = currentHost || window.location.host
   return host.indexOf('.staging.') !== -1
 }
