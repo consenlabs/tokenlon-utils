@@ -2,7 +2,10 @@ import Axios from 'axios'
 import _ from 'lodash'
 import { padLeft } from '../helper'
 import { toBN, stripHexPrefix } from '../format'
+import Gateway from '@consenlabs-fe/gateway'
 const Eth = require('ethjs')
+
+const http = Gateway.withAxiosGateway(Axios)
 
 const rpcAsync = async (url, method, params, opts = {}) => {
   const data = {
@@ -12,7 +15,7 @@ const rpcAsync = async (url, method, params, opts = {}) => {
     params,
   }
   try {
-    const res = await Axios.post(url, data, opts)
+    const res = await http.post(url, data, opts)
     return _.get(res, 'data.result')
   } catch (error) {
     throw new Error(`null response ${url} ${JSON.stringify(params)}`)
@@ -20,7 +23,7 @@ const rpcAsync = async (url, method, params, opts = {}) => {
 }
 
 function requestUrl(url, params = {}, headers?: any) {
-  return Axios({
+  return http({
     method: 'get',
     url: url,
     params,
