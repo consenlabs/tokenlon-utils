@@ -1,6 +1,6 @@
 {
   "name": "@consenlabs/tokenlon-utils",
-  "version": "1.1.0",
+  "version": "1.2.0-dev.0",
   "description": "a helper functions fot tokenlon",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
